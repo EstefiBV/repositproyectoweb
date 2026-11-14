@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio de sesión | Gestión de Productos</title>
+
+    <!-- ESTILOS GENERALES -->
+    <link rel="stylesheet"
+          th:href="@{/css/estilos.css}">
+
+    <!-- ESTILOS DEL LOGIN -->
+    <link rel="stylesheet"
+          th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+<!-- ===================================== -->
+<!--    ENCABEZADO                         -->
+<!-- ===================================== -->
+<header>
+    <h1>Inicio de sesión</h1>
+    <p>Programación Avanzada</p>
+</header>
+
+
+<!-- ===================================== -->
+<!--    CONTENIDO PRINCIPAL                -->
+<!-- ===================================== -->
+<main class="contenedor">
+
+    <section class="tarjeta login">
+
+        <h2>Ingresar al sistema</h2>
+
+        <!-- ============================== -->
+        <!-- FORMULARIO SPRING SECURITY     -->
+        <!-- ============================== -->
+        <form id="formLogin"
+              th:action="@{/login}"
+              method="post">
+
+
+            <!-- ========================== -->
+            <!-- CAMPO USUARIO              -->
+            <!-- ========================== -->
+            <label for="usuario">
+                Usuario
+            </label>
+
+            <input type="text"
+                   id="usuario"
+                   name="username"
+                   placeholder="Digite su usuario"
+                   autocomplete="username"
+                   maxlength="100"
+                   required>
+
+            <!-- ========================== -->
+            <!-- CAMPO CONTRASEÑA           -->
+            <!-- ========================== -->
+            <label for="contrasena">
+                Contraseña
+            </label>
+
+            <input type="password"
+                   id="contrasena"
+                   name="password"
+                   placeholder="Digite su contraseña"
+                   autocomplete="current-password"
+                   required>
+
+            <!-- ========================== -->
+            <!-- BOTÓN INGRESAR             -->
+            <!-- ========================== -->
+            <button type="submit">
+                Ingresar
+            </button>
+
+        </form>
+
+        <!-- REGRESAR AL INICIO -->
+        <a th:href="@{/}">
+            Volver al inicio
+        </a>
+
+    </section>
+
+</main>
+
+
+<!-- ===================================== -->
+<!--   MODAL DE MENSAJES                   -->
+<!-- ===================================== -->
+<div id="fondoModal"
+     class="modal-fondo"
+     hidden>
+
+    <section class="modal-tarjeta"
+             role="alertdialog"
+             aria-modal="true"
+             aria-labelledby="modalTitulo"
+             aria-describedby="modalText">
+
+        <!-- ICONO DEL MODAL -->
+        <div id="modalIcono"
+             class="modal-icono error"
+             aria-hidden="true">
+            ✖
+        </div>
+
+        <!-- TÍTULO -->
+        <h2 id="modalTitulo">
+            Atención
+        </h2>
+
+        <!-- MENSAJE -->
+        <p id="modalText">
+            Mensaje del sistema
+        </p>
+
+        <!-- BOTÓN ACEPTAR -->
+        <button id="modalAceptar"
+                type="button">
+            Aceptar
+        </button>
+
+    </section>
+
+</div>
+
+
+<!-- ===================================== -->
+<!--    PIE DE PÁGINA                      -->
+<!-- ===================================== -->
+<footer>
+    <p>
+        Proyecto académico con Java y Spring Boot
+    </p>
+</footer>
+
+
+<!-- ===================================== -->
+<!--    JAVASCRIPT                         -->
+<!-- ===================================== -->
+<script th:src="@{/js/login.js}"></script>
+
+</body>
+</html>
+

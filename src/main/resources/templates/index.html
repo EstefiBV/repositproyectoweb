@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${titulo}">Titulo provisional</h1>
+    <p th:text="${curso}">Nombre del curso</p>
+</header>
+
+<main class="contenedor">
+    <section class="tarjeta">
+        <h2>Aplicación funcionando</h2>
+        <p th:text="${mensaje}">Mensaje provisional</p>
+        <a href="/">Actualizar página</a>
+    </section>
+</main>
+
+<footer>
+    <p>Proyecto académico con Java y Sprint Boot</p>
+</footer>
+</body>
+</html>

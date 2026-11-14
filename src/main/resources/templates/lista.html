@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de categorías</title>
+
+    <!-- ESTILOS GENERALES -->
+    <link rel="stylesheet"
+          th:href="@{/css/estilos.css}">
+
+    <!-- ESTILOS COMPARTIDOS CON PRODUCTOS -->
+    <link rel="stylesheet"
+          th:href="@{/css/productos.css}">
+</head>
+
+<body>
+
+<!-- ENCABEZADO COMPARTIDO -->
+<div th:replace="~{fragments/header :: encabezado}"></div>
+
+<main class="contenedor-productos">
+
+    <!-- INFORMACIÓN GENERAL -->
+    <section class="tarjeta-productos">
+
+        <h2>Gestión de categorías</h2>
+
+        <p>
+            Desde esta sección puede consultar
+            y registrar categorías de productos.
+        </p>
+
+        <p>
+            Usuario conectado:
+            <strong sec:authentication="name"></strong>
+        </p>
+
+    </section>
+
+    <!-- FORMULARIO: SOLO ADMIN -->
+    <section class="tarjeta-productos"
+             sec:authorize="hasRole('ADMIN')">
+
+        <h2>Registrar categoría</h2>
+
+        <form th:action="@{/categorias/guardar}"
+              method="post">
+
+            <label for="nombre">
+                Nombre de la categoría
+            </label>
+
+            <input type="text"
+                   id="nombre"
+                   name="nombre"
+                   placeholder="Nombre de la categoría"
+                   maxlength="255"
+                   required>
+
+            <button type="submit"
+                    class="btn-guardar">
+                Guardar categoría
+            </button>
+
+        </form>
+
+    </section>
+
+    <!-- LISTADO DE CATEGORÍAS -->
+    <section class="tarjeta-productos">
+
+        <h2>Categorías registradas</h2>
+
+        <div class="tabla-contenedor">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="c : ${categorias}">
+
+                    <td th:text="${c.id}"></td>
+
+                    <td th:text="${c.nombre}"></td>
+
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(categorias)}">
+
+                    <td colspan="2">
+                        No hay categorías registradas.
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- VOLVER A PRODUCTOS -->
+    <a th:href="@{/productos}"
+       class="volver-inico">
+        Volver a productos
+    </a>
+
+</main>
+
+<!-- PIE DE PÁGINA COMPARTIDO -->
+<div th:replace="~{fragments/footer :: piePagina}"></div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,198 @@
+/*===================================*/
+/*1. Contenedor principal*/
+/*===================================*/
+.contenedor-productos{
+    width: 92%;
+    max-width: 1100px;
+    margin: 35px auto;
+}
+
+/*===================================*/
+/*2. Tarjetas de productos*/
+/*===================================*/
+.tarjeta-productos{
+    background: white;
+    padding: 28px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* Título de las tarjetas */
+.tarjeta-productos h2{
+    color: #174a5b;
+    margin-top: 0;
+}
+
+/*===================================*/
+/*3. Etiquetas del formulario*/
+/*===================================*/
+.tarjeta-productos label{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    margin-top: 15px;
+}
+
+/*===================================*/
+/*4. Campos de texto y número*/
+/*===================================*/
+.tarjeta-productos input{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    font-size: 16px;
+    /*Evita que el estilo paddin aumente ancho*/
+    box-sizing: border-box;
+}
+
+/*Cambiar el borde al selccionar los campos*/
+.tarjeta-productos input:focus{
+    outline: none;
+    border-color: #0b6477;
+}
+
+/*===================================*/
+/*5. Botón guardar / actualizar*/
+/*===================================*/
+.btn-guardar{
+    margin-top:20px;
+    padding: 12px 20px;
+    border:none;
+    border-radius: 6px;
+    background: #174a5b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-guardar:hover {background: #0b6477;}
+
+/*===================================*/
+/*6. Cancelar edición*/
+/*===================================*/
+.btn-cancelar{
+    margin-left: 15px;
+    color:#64748b;
+    text-decoration: none;
+}
+
+/*===================================*/
+/*7. Contenedor de la tabla
+/*===================================*/
+.tabla-contenedor{
+    /*Permite desplazamiento horizontal*/
+    overflow: auto;
+}
+
+/*===================================*/
+/*8. Tabla de productos
+/*===================================*/
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+/*Encabezados*/
+th{
+    padding: 12px;
+    text-align: left;
+    background: #174a5b;
+    color: white;
+}
+
+/*Celdas*/
+td{
+   padding: 12px;
+    border-bottom: 1px solid #cccccc;
+}
+
+/*Resaltar una fila al pasar el mouse*/
+tbody tr:hover{background: #f3f6f8}
+
+/*===================================*/
+/*9. Botones de acciones
+/*===================================*/
+/*Botón editar*/
+.acciones a{
+    display: inline-block;
+    margin-top: 0;
+    padding: 8px 12px;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+/*Formulario de eliminación*/
+.form-eliminar{
+    display: inline-block;
+    margin-left: 8px;
+}
+
+/*Botón eliminar*/
+.btn-eliminar{
+    padding: 8px 12px;
+    border:none;
+    border-radius: 6px;
+    background: #dc2626;
+    color: white;
+    cursor: pointer;
+}
+.btn-eliminar:hover {background: #b91c1c;}
+
+/*===================================*/
+/*10. Volver al inicio
+/*===================================*/
+.volver-inico{
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #0b6477;
+    text-decoration: none;
+}
+
+/*===================================*/
+/*11. Diseño Responsive
+/*===================================*/
+
+/*Ajuste para pantallas pequeños*/
+.tarjeta-productos{padding: 16px;}
+.acciones{white-space: normal;}
+.form-eliminar{margin-left: 0; margin-top: 8px;}
+.btn-cancelar{display:block; margin: 12px 0 0}
+
+
+/* SELECTOR DE CATEGORÍAS */
+
+.tarjeta-productos select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.tarjeta-productos select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* ENLACE PARA ADMINISTRAR CATEGORÍAS */
+
+.enlace-categorias {
+    margin-bottom: 15px;
+}
+
+.enlace-categorias a {
+    color: #2874a6;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.enlace-categorias a:hover {
+    text-decoration: underline;
+}

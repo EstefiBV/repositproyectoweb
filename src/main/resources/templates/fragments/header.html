@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+<!-- Fragmento compartido de encabezado -->
+<header th:fragment="encabezado">
+
+    <h1>Sistema de Gestión de Productos</h1>
+    <p>Programación Avanzada - Spring Boot</p>
+
+    <!-- Menú de navegación -->
+    <nav class="menu-princapal">
+
+        <!-- INICIO: TODOS -->
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <!-- PRODUCTOS: SOLO ADMIN -->
+        <a th:href="@{/productos}"
+           th:if="${session.rol == 'ADMIN'}">
+            Productos
+        </a>
+
+        <!-- CATEGORÍAS: SOLO ADMIN -->
+        <a th:href="@{/categorias}"
+          th:if="${session.rol == 'ADMIN'}">
+            Categorías
+        </a>
+
+        <!-- USUARIOS: SOLO ADMIN -->
+        <a th:href="@{/usuarios}"
+          th:if="${session.rol == 'ADMIN'}">
+            Usuarios
+        </a>
+
+        <!-- MOSTRAR USUARIO CONECTADO -->
+        <span th:if="${session.usuario != null}">
+            Bienvenido:
+            <strong th:text="${session.usuario}"></strong>
+        </span>
+
+        <!-- CERRAR SESIÓN -->
+        <form th:action="@{/logout}"
+              method="post"
+             th:if="${session.usuario != null}">
+
+            <button type="submit">
+                Cerrar sesión
+            </button>
+
+        </form>
+
+        <!-- INICIAR SESIÓN -->
+        <a th:href="@{/login}"
+           th:if="${session.usuario == null}">
+            Iniciar sesión
+        </a>
+
+    </nav>
+
+</header>
+
+</body>
+</html>

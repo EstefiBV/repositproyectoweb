@@ -1,0 +1,88 @@
+body{
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6f8;
+    color: #1f2933;
+}
+
+header, footer{
+    padding: 24px;
+    text-align: center;
+    color: white;
+    background: #174a5b;
+}
+
+.contenedor{
+    width: min(900px, 92%);
+    margin: 40px auto;
+}
+
+a{
+    display: inline-block;
+    margin-top: 12px;
+    color: #0b6477;
+    font-weight: bold;
+}
+
+.tarjeta{
+   padding: 28px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+}
+
+/* Capa ocura que ocupa toda la ventana */
+.modal-fondo{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index:1000;
+    padding: 20px;
+}
+
+/* Evita que display: flex muestre un elemento con hidden */
+.modal-fondo[hidden] {display: none;}
+
+.modal-tarjeta{
+    background: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.modal-icono{
+    width: 72px;
+    height: 72px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.modal-icono.error{background: #fee2e2; color: #dc2626;}
+.modal-icono.exito{background: #dcfce7; color:#15803d;}
+
+.modal-tarjeta h2 {margin-bottom: 12px; color:#243746;}
+.modal-tarjeta p {color: #475569; line-height: 1.5;}
+
+.modal-tarjeta button{
+    margin-top:20px;
+    padding: 12px 35px;
+    border-radius: 8px;
+    background: #174a5b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.modal-tarjeta button:hover {background: #0b6477;}

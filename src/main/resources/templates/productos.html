@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de productos</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/estilos.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/productos.css}">
+</head>
+
+<body>
+
+<!-- ENCABEZADO -->
+<div th:replace="~{fragments/header :: encabezado}"></div>
+
+<main class="contenedor-productos">
+
+    <!-- FORMULARIO DE REGISTRO Y EDICIÓN -->
+    <section class="tarjeta-productos">
+
+        <h2 th:text="${productoEditar != null}
+                ? 'Editar producto'
+                : 'Registrar producto'">
+            Registrar producto
+        </h2>
+
+        <form th:action="${productoEditar != null}
+                ? @{/productos/actualizar}
+                : @{/productos/guardar}"
+              method="post">
+
+            <!-- ID DEL PRODUCTO AL EDITAR -->
+            <input th:if="${productoEditar != null}"
+                   type="hidden"
+                   th:value="${productoEditar.id}"
+                   name="id">
+
+            <!-- NOMBRE -->
+            <label for="nombre">Nombre</label>
+
+            <input type="text"
+                   id="nombre"
+                   name="nombre"
+                   placeholder="Nombre del producto"
+                   th:value="${productoEditar != null}
+                       ? ${productoEditar.nombre}
+                       : ''"
+                   required>
+
+            <!-- PRECIO -->
+            <label for="precio">Precio</label>
+
+            <input type="number"
+                   id="precio"
+                   name="precio"
+                   min="0"
+                   step="0.01"
+                   placeholder="Precio del producto"
+                   th:value="${productoEditar != null}
+                       ? ${productoEditar.precio}
+                       : ''"
+                   required>
+
+            <!-- CANTIDAD -->
+            <label for="cantidad">Cantidad</label>
+
+            <input type="number"
+                   id="cantidad"
+                   name="cantidad"
+                   min="0"
+                   step="1"
+                   placeholder="Cantidad del producto"
+                   th:value="${productoEditar != null}
+                       ? ${productoEditar.cantidad}
+                       : ''"
+                   required>
+
+            <!-- CATEGORÍA -->
+            <label for="categoriaId">Categoría</label>
+
+            <select id="categoriaId"
+                    name="categoriaId"
+                    required>
+
+                <option value="">
+                    Seleccione una categoría
+                </option>
+
+                <option th:each="categoria : ${categorias}"
+                        th:value="${categoria.id}"
+                        th:text="${categoria.nombre}"
+                        th:selected="${productoEditar != null
+                            and productoEditar.categoria != null
+                            and productoEditar.categoria.id == categoria.id}">
+                </option>
+
+            </select>
+
+            <!-- ENLACE PARA ADMINISTRAR CATEGORÍAS -->
+            <div class="enlace-categorias">
+                <a th:href="@{/categorias}">
+                    Administrar categorías
+                </a>
+            </div>
+
+            <!-- BOTÓN GUARDAR O ACTUALIZAR -->
+            <button type="submit"
+                    class="btn-guardar"
+                    th:text="${productoEditar != null}
+                        ? 'Actualizar producto'
+                        : 'Guardar producto'">
+                Guardar producto
+            </button>
+
+            <!-- CANCELAR EDICIÓN -->
+            <a th:if="${productoEditar != null}"
+               th:href="@{/productos}"
+               class="btn-cancelar">
+                Cancelar edición
+            </a>
+
+        </form>
+
+    </section>
+
+    <!-- LISTA DE PRODUCTOS -->
+    <section class="tarjeta-productos">
+
+        <h2>Productos registrados</h2>
+
+        <div class="tabla-contenedor">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Categoría</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <!-- RECORRER PRODUCTOS -->
+                <tr th:each="producto : ${productos}">
+
+                    <td th:text="${producto.id}"></td>
+
+                    <td th:text="${producto.nombre}"></td>
+
+                    <td th:text="${producto.precio}"></td>
+
+                    <td th:text="${producto.cantidad}"></td>
+
+                    <!-- MOSTRAR CATEGORÍA -->
+                    <td th:text="${producto.categoria != null
+                        ? producto.categoria.nombre
+                        : 'Sin categoría'}">
+                    </td>
+
+                    <!-- ACCIONES -->
+                    <td class="acciones">
+
+                        <!-- EDITAR -->
+                        <a th:href="@{/productos/editar/{id}
+                            (id=${producto.id})}">
+                            Editar
+                        </a>
+
+                        <!-- ELIMINAR -->
+                        <form class="form-eliminar"
+                              th:action="@{/productos/eliminar/{id}
+                                  (id=${producto.id})}"
+                              method="post">
+
+                            <button type="submit"
+                                    class="btn-eliminar">
+                                Eliminar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                <!-- SIN PRODUCTOS -->
+                <tr th:if="${#lists.isEmpty(productos)}">
+
+                    <td colspan="6">
+                        No hay productos registrados
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- VOLVER AL INICIO -->
+    <a th:href="@{/}"
+       class="volver-inico">
+        Volver al inicio
+    </a>
+
+</main>
+
+<!-- MODAL PARA MENSAJES -->
+<div id="fondoModal"
+     class="modal-fondo"
+     hidden>
+
+    <section class="modal-tarjeta"
+             role="alertdialog"
+             aria-modal="true"
+             aria-labelledby="modalTitulo"
+             aria-describedby="modalText">
+
+        <div id="modalIcono"
+             class="modal-icono error">
+            x
+        </div>
+
+        <h2 id="modalTitulo">
+            Atención
+        </h2>
+
+        <p id="modalText">
+            Mensaje del sistema
+        </p>
+
+        <button id="modalAceptar"
+                type="button">
+            Aceptar
+        </button>
+
+    </section>
+
+</div>
+
+<!-- PIE DE PÁGINA -->
+<div th:replace="~{fragments/footer :: piePagina}"></div>
+
+<!-- JAVASCRIPT -->
+<script th:src="@{/js/productos.js}"></script>
+
+</body>
+</html>
