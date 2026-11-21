@@ -1,10 +1,8 @@
 package com.example.proyectoweb.controller;
 
 import com.example.proyectoweb.model.Producto;
-import com.example.proyectoweb.model.Categoria;
-import com.example.proyectoweb.repository.ProductoRepository;
 import com.example.proyectoweb.repository.CategoriaRepository;
-
+import com.example.proyectoweb.service.ProductoService;
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Controller;
@@ -15,14 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/productos")
 public class ProductosController {
 
-    private final ProductoRepository productoRepository;
+    private final ProductoService productoService;
     private final CategoriaRepository categoriaRepository;
 
+    // 1. INYECCION DE DEPENDENCIAS
     public ProductosController(
-            ProductoRepository productoRepository,
+            ProductoService productoService,
             CategoriaRepository categoriaRepository) {
 
-        this.productoRepository = productoRepository;
+        this.productoService = productoService;
         this.categoriaRepository = categoriaRepository;
     }
 
@@ -31,7 +30,7 @@ public class ProductosController {
 
         model.addAttribute(
                 "productos",
-                productoRepository.findAll()
+                productoService.listar()
         );
 
         model.addAttribute(
@@ -50,52 +49,13 @@ public class ProductosController {
             @RequestParam Integer cantidad,
             @RequestParam Long categoriaId) {
 
-        if (!datosValidados(nombre, precio, cantidad)) {
-            return "redirect:/productos?error=datos";
-        }
-
-        Categoria categoria = categoriaRepository
-                .findById(categoriaId)
-                .orElse(null);
-
-        if (categoria == null) {
-            return "redirect:/productos?error=categoria";
-        }
-
-        Producto nuevo = new Producto();
-
-        nuevo.setNombre(nombre.trim());
-        nuevo.setPrecio(precio);
-        nuevo.setCantidad(cantidad);
-        nuevo.setCategoria(categoria);
-
-        productoRepository.save(nuevo);
-
-        return "redirect:/productos?mensaje=guardado";
+         boolean guardado = productoService.guardar(nombre, precio, cantidad, categoriaId);
+         if(!guardado){
+             return "redirect:/productos?error=datos";
+         }
+         return "redirect:/productos?mensaje=guardado";
     }
 
-    // 3. BUSCAR PRODUCTO PARA EDITAR
-    @GetMapping("/editar/{id}")
-    public String editar(@PathVariable Long id, Model model) {
-
-        Producto producto = productoRepository
-                .findById(id)
-                .orElse(null);
-
-        if (producto == null) {
-            return "redirect:/productos?error=noexiste";
-        }
-
-        model.addAttribute(
-                "productos", productoRepository.findAll());
-
-        model.addAttribute(
-                "categorias", categoriaRepository.findAll());
-
-        model.addAttribute("productoEditar", producto);
-
-        return "productos";
-    }
 
     // 4. ACTUALIZAR PRODUCTO
     @PostMapping("/actualizar")
@@ -106,60 +66,47 @@ public class ProductosController {
             @RequestParam Integer cantidad,
             @RequestParam Long categoriaId) {
 
-        Producto producto = productoRepository
-                .findById(id)
-                .orElse(null);
+        if(productoService.buscar(id) == null){
+            return "redirect:/productos?error=noexiste";
+        }
+        boolean actualizar = productoService.actualizar(id, nombre, precio, cantidad,categoriaId);
+
+        if(!actualizar){
+            return "redirect:/productos?error=datos";
+        }
+        return "redirect:/productos?mensaje=actualizado";
+    }
+
+
+    // 3. EDITAR PRODUCTO
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+
+        Producto producto =  productoService.buscar(id);
 
         if (producto == null) {
             return "redirect:/productos?error=noexiste";
         }
 
-        if (!datosValidados(nombre, precio, cantidad)) {
-            return "redirect:/productos?error=datos";
-        }
+        model.addAttribute(
+                "productos", productoService.listar());
+        model.addAttribute(
+                "categorias", categoriaRepository.findAll());
+        model.addAttribute("productoEditar", producto);
 
-        Categoria categoria = categoriaRepository
-                .findById(categoriaId)
-                .orElse(null);
-
-        if (categoria == null) {
-            return "redirect:/productos?error=categoria";
-        }
-
-        producto.setNombre(nombre.trim());
-        producto.setPrecio(precio);
-        producto.setCantidad(cantidad);
-        producto.setCategoria(categoria);
-
-        productoRepository.save(producto);
-
-        return "redirect:/productos?mensaje=actualizado";
+        return "productos";
     }
+
 
     // 5. ELIMINAR PRODUCTO
     @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
-
-        if (!productoRepository.existsById(id)) {
+        boolean eliminado = productoService.eliminar(id);
+        if(!eliminado){
             return "redirect:/productos?error=noexiste";
         }
-
-        productoRepository.deleteById(id);
 
         return "redirect:/productos?mensaje=eliminado";
     }
 
-    // 6. VALIDAR DATOS
-    private boolean datosValidados(
-            String nombre,
-            BigDecimal precio,
-            Integer cantidad) {
-
-        return nombre != null
-                && !nombre.isBlank()
-                && precio != null
-                && precio.compareTo(BigDecimal.ZERO) >= 0
-                && cantidad != null
-                && cantidad >= 0;
-    }
 }
